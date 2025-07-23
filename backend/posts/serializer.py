@@ -1,3 +1,4 @@
+
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
@@ -28,8 +29,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         try:
             token['vendor_id'] = user.vendor.id
-        except:
-            token['vendor_id'] = 0
+        except AttributeError:
+            # If the user does not have a vendor, we can handle it gracefully
+            token['vendor_id'] = None
 
         # ...
 
@@ -63,7 +65,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             full_name=validated_data['full_name'],
             email=validated_data['email'],
         )
-        email_username, mobile = user.email.split('@')
+        email_username = user.email.split('@')[0]
         user.username = email_username
 
         # Set the user's password based on the validated data
@@ -125,7 +127,7 @@ class CategorySerializer(serializers.ModelSerializer):
         if request and request.method == 'POST':
             self.Meta.depth = 0
         else:
-            self.Meta.depth = 3
+            self.Meta.depth = 1
 
 class CommentSerializer(serializers.ModelSerializer):
     
@@ -155,7 +157,7 @@ class PostSerializer(serializers.ModelSerializer):
         if request and request.method == 'POST':
             self.Meta.depth = 0
         else:
-            self.Meta.depth = 3
+            self.Meta.depth = 1
 
 
 
@@ -172,7 +174,7 @@ class BookmarkSerializer(serializers.ModelSerializer):
         if request and request.method == 'POST':
             self.Meta.depth = 0
         else:
-            self.Meta.depth = 3
+            self.Meta.depth = 1
     
 class NotificationSerializer(serializers.ModelSerializer):  
 
@@ -186,7 +188,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         if request and request.method == 'POST':
             self.Meta.depth = 0
         else:
-            self.Meta.depth = 3
+            self.Meta.depth = 1
 
 class AuthorStats(serializers.Serializer):
     views = serializers.IntegerField(default=0)
