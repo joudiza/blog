@@ -12,7 +12,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True) 
     full_name = models.CharField(max_length=100, null=True, blank=True)
     otp = models.CharField(max_length=100, null=True, blank=True)
-    
+    reset_token = models.TextField(null=True, blank=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -101,7 +102,7 @@ class Post(models.Model):
     image = models.FileField(upload_to="image", null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     tags = models.CharField(max_length=100)
-    category = models.ManyToManyField(Category, on_delete=models.SET_NULL, null=True, related_name='posts')
+    category = models.ManyToManyField(Category, related_name='posts')
     status = models.CharField(max_length=100, choices=STATUS, default="Active")
     view = models.IntegerField(default=0)
     likes = models.ManyToManyField(User, blank=True, related_name="likes_user")

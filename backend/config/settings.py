@@ -13,11 +13,12 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
-from environ import Env
-env = Env()
-env.read_env()
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import environ
+env = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -156,6 +157,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'posts.User'
 CORS_ALLOW_ALL_ORIGINS = True
 
 
