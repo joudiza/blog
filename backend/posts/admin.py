@@ -12,8 +12,14 @@ class ProfileAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ["title"]
 
+
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["title","user","view"]
+    list_display = ['id', 'title', 'get_categories']
+
+    def get_categories(self, obj):
+        return ", ".join([cat.name for cat in obj.category.all()])
+    
+    get_categories.short_description = 'Categories'
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ["post","name","email","comment"]
