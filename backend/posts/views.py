@@ -480,3 +480,9 @@ class DashboardPostEditAPIView(generics.RetrieveUpdateDestroyAPIView):
     "category_id": 1,
     "post_status": "Active"
 }
+
+
+class CategoryCreateAPIView(generics.CreateAPIView):
+    queryset = api_models.Category.objects.all()
+    serializer_class = api_serializer.CategorySerializer
+    permission_classes = [AllowAny]

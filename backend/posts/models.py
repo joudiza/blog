@@ -71,7 +71,7 @@ post_save.connect(save_user_profile, sender=User)
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
-    image = models.FileField(upload_to="image", null=True, blank=True)
+    image = models.FileField(upload_to="image", null=True, blank=True,  max_length=255)
     slug = models.SlugField(unique=True, null=True, blank=True)
 
     def __str__(self):
